@@ -31,7 +31,7 @@ const Tasks= ({navigation}) => {
         })
       }
       </ScrollView>
-      <TaskInputField addTask={addTask}/>
+      <TaskInputField addTask={addTask} style={styles.taskInput}/>
     </View>
   );
 }
@@ -43,7 +43,7 @@ export default Tasks;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E1A3C',
+    backgroundColor: '#000',
   },
   heading: {
     color: '#fff',
@@ -58,5 +58,6 @@ const styles = StyleSheet.create({
   },
   taskContainer: {
     marginTop: 20,
-  }
+  },
+
 });

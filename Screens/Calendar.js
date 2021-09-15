@@ -1,20 +1,81 @@
-import React from 'react';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import { StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {Agenda} from 'react-native-calendars';
+import {Card, Avatar} from 'react-native-paper';
 
-<CalendarList
-  // Callback which gets executed when visible months change in scroll view. Default = undefined
-  onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
-  // Max amount of months allowed to scroll to the past. Default = 50
-  pastScrollRange={50}
-  // Max amount of months allowed to scroll to the future. Default = 50
-  futureScrollRange={50}
-  // Enable or disable scrolling of calendar list
-  scrollEnabled={true}
-  // Enable or disable vertical scroll indicator. Default = false
-  showScrollIndicator={true}
+const timeToString = (time) => {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
+};
 
-/>
+const Schedule: React.FC = () => {
+    const [items, setItems] = useState({});
+    const loadItems = (day) => {
+      setTimeout(() => {
+        for (let i = -15; i < 85; i++) {
+          const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+          const strTime = timeToString(time);
+          if (!items[strTime]) {
+            items[strTime] = [];
+            const numItems = Math.floor(Math.random() * 3 + 1);
+            for (let j = 0; j < numItems; j++) {
+              items[strTime].push({
+                name: 'Item for ' + strTime + ' #' + j,
+                height: Math.max(50, Math.floor(Math.random() * 150))
+              });
+            }
+          }
+        }
+        const newItems = {};
+        Object.keys(items).forEach(key => {
+          newItems[key] = items[key];
+        });
+        setItems(newItems)
+      }, 1000);
+    };
+
+    const renderItem = (item) => {
+
+        return (
+            <TouchableOpacity style={styles.item}>
+                <Card>
+                    <Card.Content>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
+                            <Text>{item.name}</Text>
+                            <Avatar.Text label="A"/>
+                        </View>
+                    </Card.Content>
+                </Card>
+            </TouchableOpacity>
+        );
+    };
 
 
-export default CalendarList;
+    return (
+        <View style={{flex: 1}}>
+            <Agenda
+                items={items}
+                loadItemsForMonth={loadItems}
+                selected={'2021-09-14'}
+                renderItem = {renderItem}
+            />
+        </View>
+   );
+};
+
+export default Schedule;
+
+const styles = StyleSheet.create({
+  item: {
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17
+  },
+});

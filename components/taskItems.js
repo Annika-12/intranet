@@ -5,9 +5,6 @@ import { StyleSheet, Text, View, TouchableOpacity, } from "react-native";
 export default TaskItem = (props) => {
     return (
         <View style={styles.container}>
-            <View style={styles.indexContainer}>
-                <Text style={styles.index}>{props.index}</Text>
-            </View>
             <View style={styles.taskContainer}>
                 <Text style={styles.task}>{props.task}</Text>
                 <TouchableOpacity onPress={() => props.deleteTask()}>
@@ -25,7 +22,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     indexContainer: {
-        backgroundColor: '#3E3364',
+        backgroundColor: '#c8a771',
         borderRadius: 12,
         marginRight: 10,
         alignItems: 'center',
@@ -38,10 +35,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     taskContainer: {
-        backgroundColor: '#3E3364',
+        backgroundColor: '#c8a771',
         borderRadius: 12,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        //justifyContent: 'space-between',
         alignItems: 'center',
         flex: 1,
         paddingHorizontal: 10,
