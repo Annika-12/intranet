@@ -1,26 +1,59 @@
+// Copyright (c) Microsoft.
+// Licensed under the MIT license.
+
+// <HomeScreenSnippet>
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
-import { FlatGrid } from 'react-native-super-grid';
-import {Agenda} from '../Screens/Calendar';
+import {
+  ActivityIndicator,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-const HomeScreen= ({navigation}) => {
+import {UserContext} from '../UserContext';
 
+const Stack = createStackNavigator();
+
+const HomeComponent = () => {
+  const userContext = React.useContext(UserContext);
+
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator
+        color={Platform.OS === 'android' ? '#276b80' : undefined}
+        animating={userContext.userLoading}
+        size='large'
+      />
+      {userContext.userLoading ? null : (
+        <Text>Hello {userContext.userFirstName}!</Text>
+      )}
+    </View>
+  );
+};
+
+export default class HomeScreen extends React.Component {
+  render() {
     return (
-        <View style={styles.container}>
-            <Text> Coming Soon: </Text>
-            <Text> o Calendar </Text>
-            <Text> o News </Text>
-        </View>
+      <Stack.Navigator>
+        <Stack.Screen
+          name='Home'
+          component={HomeComponent}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
     );
+  }
 }
 
-export default HomeScreen;
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#8fcbbc',
-    },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
+// </HomeScreenSnippet>
